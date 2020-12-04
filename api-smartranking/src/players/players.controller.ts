@@ -1,15 +1,19 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { CreatePlayerDto } from './dto/create-player.dto';
+import { PlayersService } from './players.service';
 
 @Controller('api/v1/players')
 export class PlayersController {
 
+    constructor(
+        private readonly playersService: PlayersService
+    ) { }
+
     @Post()
     async createUpdatePlayer(
+
         @Body() createPlayerDto: CreatePlayerDto) {
-        const { email } = createPlayerDto;
-        return JSON.stringify(`{
-            "nome": ${createPlayerDto.email} 
-        }`);
+        await this.playersService.createUpdatePlayer(createPlayerDto);
+
     }
 }
