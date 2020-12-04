@@ -61,7 +61,6 @@ export class PlayersService {
             urlPhotoPlayer: 'www.google.com.br/foto123.jpg'
         };
 
-        this.logger.log(`createPlayerDto: ${JSON.stringify(player)}`)
         this.players.push(player);
     }
 
