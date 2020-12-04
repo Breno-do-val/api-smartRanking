@@ -51,17 +51,7 @@ export class PlayersService {
     private create(createPlayerDto: CreatePlayerDto): void {
 
         const { name, phoneNumber, email } = createPlayerDto;
-        const player: Player = {
-            _id: uuidv4(),
-            name,
-            phoneNumber,
-            email,
-            ranking: 'A',
-            rankingPosition: 1,
-            urlPhotoPlayer: 'www.google.com.br/foto123.jpg'
-        };
-
-        this.players.push(player);
+        // implement
     }
 
     private update(playerExists: Player, createPlayerDto: CreatePlayerDto): void {
