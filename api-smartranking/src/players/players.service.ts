@@ -45,7 +45,7 @@ export class PlayersService {
 
     async delete(email: string): Promise<any> {
         try {
-            return this.playerModel.remove({ email }).exec();
+            return this.playerModel.deleteOne({ email }).exec();
         } catch (error) {
             throw new NotFoundException(`Player with email ${email} not found`);
         }

@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Post, Query, UsePipes, ValidationPipe } 
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { Player } from './interfaces/player.interface';
 import { PlayersService } from './players.service';
+import { PlayersValidationParamsPipe } from './pipes/players-validation-params.pipe';
 
 @Controller('api/v1/players')
 export class PlayersController {
@@ -33,7 +34,7 @@ export class PlayersController {
 
     @Delete()
     async remove(
-        @Query('email') email: string): Promise<void> {
+        @Query('email', PlayersValidationParamsPipe) email: string): Promise<void> {
         await this.playersService.delete(email);
     }
 
