@@ -1,5 +1,7 @@
+/* eslint-disable prettier/prettier */
 import { Body, Controller, Delete, Get, Param, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreatePlayerDto } from './dto/create-player.dto';
+import { UpdatePlayerDto } from './dto/update-player.dto';
 import { Player } from './interfaces/player.interface';
 import { PlayersService } from './players.service';
 import { PlayersValidationParamsPipe } from './pipes/players-validation-params.pipe';
@@ -14,16 +16,16 @@ export class PlayersController {
     @Post()
     @UsePipes(ValidationPipe)
     async createPlayer(
-        @Body() createPlayerDto: CreatePlayerDto): Promise<void> {
-        await this.playersService.createPlayer(createPlayerDto);
+        @Body() createPlayerDto: CreatePlayerDto): Promise<Player> {
+        return await this.playersService.createPlayer(createPlayerDto);
     }
 
     @Put('/:_id')
     @UsePipes(ValidationPipe)
     async updatePlayer(
-        @Body() createPlayerDto: CreatePlayerDto,
+        @Body() updatePlayerDto: UpdatePlayerDto,
         @Param('_id', PlayersValidationParamsPipe) _id: string): Promise<void> {
-        await this.playersService.updatePlayer(_id, createPlayerDto);
+        await this.playersService.updatePlayer(_id, updatePlayerDto);
     }
 
     @Get()
