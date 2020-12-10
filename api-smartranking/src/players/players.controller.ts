@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { Player } from './interfaces/player.interface';
 import { PlayersService } from './players.service';
+import { PlayersValidationParamsPipe } from './pipes/players-validation-params.pipe';
 
 @Controller('api/v1/players')
 export class PlayersController {
@@ -11,29 +12,35 @@ export class PlayersController {
     ) { }
 
     @Post()
-    async createUpdatePlayer(
+    @UsePipes(ValidationPipe)
+    async createPlayer(
+        @Body() createPlayerDto: CreatePlayerDto): Promise<void> {
+        await this.playersService.createPlayer(createPlayerDto);
+    }
 
-        @Body() createPlayerDto: CreatePlayerDto) {
-        await this.playersService.createUpdatePlayer(createPlayerDto);
-
+    @Put('/:_id')
+    @UsePipes(ValidationPipe)
+    async updatePlayer(
+        @Body() createPlayerDto: CreatePlayerDto,
+        @Param('_id', PlayersValidationParamsPipe) _id: string): Promise<void> {
+        await this.playersService.updatePlayer(_id, createPlayerDto);
     }
 
     @Get()
-    async retrievePlayers(
-        @Query('email') email: string
-    ): Promise<Player[] | Player> {
-        if (email) {
-            return await this.playersService.findOne(email);
-        }
-        else {
-            return await this.playersService.retrieveAll();
-        }
+    async retrievePlayers(): Promise<Player[]> {
+        return await this.playersService.retrieveAll();
     }
 
-    @Delete()
+    @Get('/:_id')
+    async retrievePlayerById(
+        @Param('_id', PlayersValidationParamsPipe) _id: string): Promise<Player> {
+        return await this.playersService.findOne(_id);
+    }
+
+    @Delete('/:_id')
     async remove(
-        @Query('email') email: string): Promise<void> {
-        await this.playersService.delete(email);
+        @Param('_idl', PlayersValidationParamsPipe) _id: string): Promise<void> {
+        await this.playersService.delete(_id);
     }
 
 }
