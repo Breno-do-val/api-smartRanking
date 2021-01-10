@@ -15,7 +15,7 @@ export class CategoriesController {
         return await this.categoriesService.createCategory(createCategoryDto)
     }
 
-    @Get
+    @Get()
     async consultCategory(): Promise<Array<Category>> {
         return await this.categoriesService.consultAllCategories();
     }
